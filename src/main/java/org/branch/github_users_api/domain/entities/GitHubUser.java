@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @Builder
-public class GitHubUser {
+public class GitHubUser implements Serializable {
     private String username;
     private String displayName;
     private String avatarUrl;

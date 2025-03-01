@@ -5,6 +5,7 @@ import org.branch.github_users_api.domain.entities.GitHubUser;
 import org.branch.github_users_api.repositories.dtos.GitHubAPIReposResponse;
 import org.branch.github_users_api.repositories.dtos.GitHubAPIUserResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
 
@@ -23,6 +24,7 @@ public class GitHubUsersAPIRepository {
         this.gitHubClient = gitHubClient;
     }
 
+    @Cacheable("githubUsersCache")
     public Optional<GitHubUser> findByUsername(String username) {
         GitHubAPIUserResponse userResponse = gitHubClient.get()
                 .uri("/{username}", username)
