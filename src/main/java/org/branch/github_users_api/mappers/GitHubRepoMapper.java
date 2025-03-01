@@ -2,7 +2,7 @@ package org.branch.github_users_api.mappers;
 
 import org.branch.github_users_api.domain.dtos.GitHubUserDTO;
 import org.branch.github_users_api.domain.entities.GitHubRepo;
-import org.branch.github_users_api.repositories.dtos.GitHubAPIReposResponse;
+import org.branch.github_users_api.domain.dtos.GitHubAPIReposResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
