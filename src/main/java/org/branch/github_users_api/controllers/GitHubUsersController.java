@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1/github-users")
 @AllArgsConstructor
@@ -19,10 +21,10 @@ public final class GitHubUsersController {
 
     @GetMapping("/{username}")
     public ResponseEntity<GitHubUserDTO> getGitHubUser(@PathVariable String username) {
-        GitHubUser foundGithubUser = gitHubUsersService.findByUsername(username);
+        Optional<GitHubUser> foundGithubUser = gitHubUsersService.findByUsername(username);
 
-        return ResponseEntity.ok(new GitHubUserDTO(
-                foundGithubUser.getUsername(),
+        return foundGithubUser.map(gitHubUser -> ResponseEntity.ok(new GitHubUserDTO(
+                gitHubUser.getUsername(),
                 null,
                 null,
                 null,
@@ -30,6 +32,7 @@ public final class GitHubUsersController {
                 null,
                 null,
                 null
-        ));
+        ))).orElseGet(() -> ResponseEntity.notFound().build());
+
     }
 }
