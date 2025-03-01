@@ -1,5 +1,7 @@
 package org.branch.github_users_api.controllers;
 
+import org.branch.github_users_api.domain.dtos.GitHubUserDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class GitHubUsersController {
 
     @GetMapping("/{username}")
-    public String getGitHubUser(@PathVariable String username) {
-        return username + " received";
+    public ResponseEntity<GitHubUserDTO> getGitHubUser(@PathVariable String username) {
+        return ResponseEntity.ok(new GitHubUserDTO(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        ));
     }
 }
