@@ -25,13 +25,16 @@ public final class GitHubUsersController {
 
         return foundGithubUser.map(gitHubUser -> ResponseEntity.ok(new GitHubUserDTO(
                 gitHubUser.getUsername(),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+                gitHubUser.getDisplayName(),
+                gitHubUser.getAvatarUrl(),
+                gitHubUser.getGeoLocation(),
+                gitHubUser.getEmail(),
+                gitHubUser.getOverviewUrl(),
+                gitHubUser.getCreatedAt().toString(),
+                gitHubUser.getRepos().stream().map(entity -> new GitHubUserDTO.RepoDTO(
+                        entity.getName(),
+                        entity.getUrl()
+                )).toList()
         ))).orElseGet(() -> ResponseEntity.notFound().build());
 
     }
