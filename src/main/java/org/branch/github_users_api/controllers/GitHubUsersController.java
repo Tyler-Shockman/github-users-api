@@ -3,6 +3,7 @@ package org.branch.github_users_api.controllers;
 import lombok.AllArgsConstructor;
 import org.branch.github_users_api.domain.dtos.GitHubUserDTO;
 import org.branch.github_users_api.domain.entities.GitHubUser;
+import org.branch.github_users_api.mappers.GitHubUserMapper;
 import org.branch.github_users_api.services.GitHubUsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,24 +19,14 @@ import java.util.Optional;
 public final class GitHubUsersController {
 
     private final GitHubUsersService gitHubUsersService;
+    private final GitHubUserMapper gitHubUserMapper;
 
     @GetMapping("/{username}")
     public ResponseEntity<GitHubUserDTO> getGitHubUser(@PathVariable String username) {
         Optional<GitHubUser> foundGithubUser = gitHubUsersService.findByUsername(username);
 
-        return foundGithubUser.map(gitHubUser -> ResponseEntity.ok(new GitHubUserDTO(
-                gitHubUser.getUsername(),
-                gitHubUser.getDisplayName(),
-                gitHubUser.getAvatarUrl(),
-                gitHubUser.getGeoLocation(),
-                gitHubUser.getEmail(),
-                gitHubUser.getOverviewUrl(),
-                gitHubUser.getCreatedAt().toString(),
-                gitHubUser.getRepos().stream().map(entity -> new GitHubUserDTO.RepoDTO(
-                        entity.getName(),
-                        entity.getUrl()
-                )).toList()
-        ))).orElseGet(() -> ResponseEntity.notFound().build());
-
+        return foundGithubUser.map(gitHubUser ->
+                ResponseEntity.ok().body(gitHubUserMapper.toGitHubUserDTO(gitHubUser))
+                ).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
