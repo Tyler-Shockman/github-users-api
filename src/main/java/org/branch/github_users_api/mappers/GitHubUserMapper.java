@@ -7,11 +7,13 @@ import org.branch.github_users_api.domain.entities.GitHubUser;
 import org.branch.github_users_api.domain.dtos.GitHubAPIUserResponse;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
 @AllArgsConstructor
 public class GitHubUserMapper {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private GitHubRepoMapper gitHubRepoMapper;
 
@@ -41,7 +43,7 @@ public class GitHubUserMapper {
                 gitHubUser.getGeoLocation(),
                 gitHubUser.getEmail(),
                 gitHubUser.getOverviewUrl(),
-                gitHubUser.getCreatedAt().toString(),
+                gitHubUser.getCreatedAt().format(formatter),
                 gitHubRepoMapper.toGitHubRepoDTO(gitHubUser.getRepos())
         );
     }

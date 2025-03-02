@@ -1,5 +1,6 @@
 package org.branch.github_users_api.repositories;
 
+import lombok.extern.java.Log;
 import org.branch.github_users_api.domain.entities.GitHubRepo;
 import org.branch.github_users_api.domain.entities.GitHubUser;
 import org.branch.github_users_api.mappers.GitHubRepoMapper;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Log
 public class GitHubUsersAPIRepository {
 
     private final RestClient gitHubClient;
@@ -34,27 +36,27 @@ public class GitHubUsersAPIRepository {
     @Cacheable("githubUsersCache")
     public Optional<GitHubUser> findByUsername(String username) {
         GitHubAPIUserResponse userResponse = this.fetchGitHubUsers(username);
-        assert userResponse != null;
-
         GitHubAPIReposResponse[] reposResponse = this.fetchGitHubRepos(username);
-        assert reposResponse != null;
 
         List<GitHubRepo> repos = gitHubRepoMapper.fromGitHubAPIRepoResponse(reposResponse);
-
         return Optional.ofNullable(gitHubUserMapper.fromGitHubAPIUserResponse(userResponse, repos));
     }
 
     private GitHubAPIUserResponse fetchGitHubUsers(String username) {
-        return gitHubClient.get()
+        GitHubAPIUserResponse response = gitHubClient.get()
                 .uri("/{username}", username)
                 .retrieve()
                 .body(GitHubAPIUserResponse.class);
+        assert response != null;
+        return response;
     }
 
     private GitHubAPIReposResponse[] fetchGitHubRepos(String username) {
-        return gitHubClient.get()
+        GitHubAPIReposResponse[] response = gitHubClient.get()
                 .uri("/{username}/repos", username)
                 .retrieve()
                 .body(GitHubAPIReposResponse[].class);
+        assert response != null;
+        return response;
     }
 }
