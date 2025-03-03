@@ -51,7 +51,7 @@ The application comes packaged with the maven wrapper, simply run:
 from within the application directory and the application should start up.
 
 PERMISSION ERRORS: If you get permission errors you may need to make the 
-maven wrapper to executable. You can do this by running:
+maven wrapper executable. You can do this by running:
 ```bash
 chmod +x mvnw
 ```
