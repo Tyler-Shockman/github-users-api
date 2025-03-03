@@ -21,7 +21,7 @@ descriptions of what you will find in the different directories.
 ## Requirements
 For building and running this application you will need:
 
-- <a href=https://www.oracle.com/java/technologies/downloads/#jdk23-linux>JDK 2.3</a>
+- <a href=https://www.oracle.com/java/technologies/downloads/#jdk23-linux>JDK 23</a>
 - <a href=https://www.docker.com/products/docker-desktop/>Docker</a>
 
 ## Running Locally
@@ -37,18 +37,24 @@ the property to all uppercase and then replacing and "." with a "_".
 
 ### Start Redis Docker Container
 This app uses redis to cache data. To start a redis docker contain run:
-```console
-docker-compose up -d
+```bash
+docker compose up -d
 ```
 This will start the redis docker container.
 
 ### Run the Application with the Maven Wrapper
 
 The application comes packaged with the maven wrapper, simply run:
-```console
-.\mvnw spring-boot:run
+```bash
+./mvnw spring-boot:run
 ```
 from within the application directory and the application should start up.
+
+PERMISSION ERRORS: If you get permission errors you may need to make the 
+maven wrapper to executable. You can do this by running:
+```bash
+chmod +x mvnw
+```
 
 ## Application Docs
 
